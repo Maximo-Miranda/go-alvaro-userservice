@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package goalvaro;
+
+// User
+message User {
+
+    int64   id = 1;
+    string  name = 2;
+    string  lastname = 3;
+    string  email = 4;
+    string  password = 5;
+    string  phonenumber = 6;
+
+}
+
+// REQUEST METHODS
+
+message UserId {
+    int64 id = 1;
+}
+
+// RESPONSE METHODS
+
+// Response
+message Response {
+    int64 code = 1;
+    string message = 2;
+}
+
+// UserResponse
+message UserResponse {
+    Response meta = 1;
+    User data = 2;
+}
+
+// UserBoolResponse
+message UserBoolResponse {
+    Response meta = 1;
+    bool data = 2;
+}
+
+// UsersResponse
+message UsersResponse {
+    Response meta = 1;
+    repeated User data = 2;
+}
+
+// UserService
+service UserService {
+
+    // ListUsers
+    rpc ListUser(google.protobuf.Empty) returns (UsersResponse);
+
+    // CreateUser
+    rpc CreateUser(User) returns (UserResponse);
+
+    // GetUserById
+    rpc GetUserByID(UserId) returns (UserResponse);
+
+    // UpdateUser
+    rpc UpdateUser(User) returns (UserResponse);
+
+    // DeleteUser
+    rpc DeleteUser(UserId) returns (UserBoolResponse);
+
+}
