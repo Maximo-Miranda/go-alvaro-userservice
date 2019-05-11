@@ -10,16 +10,18 @@ import (
 
 var ctx context.Context
 var emp *empty.Empty
+var user *goalvaro.User
 
-func TestCreateUser(t *testing.T) {
+// TestServer_CreateUser
+func TestServer_CreateUser(t *testing.T) {
 
 	s := Server{}
 
-	user := &goalvaro.User{
-		Name:"Alavar",
-		Lastname:"Vega",
-		Email:"alvaro@elmistico.com",
-		Phonenumber: "3147114206",
+	user = &goalvaro.User{
+		Name:"TestName",
+		Lastname:"TestLastname",
+		Email:"test@corp.com",
+		Phonenumber: "583872",
 		Password: "secret",
 	}
 
@@ -27,15 +29,33 @@ func TestCreateUser(t *testing.T) {
 	if err != nil {
 		t.Errorf("Failed to test TestCreateUser - %v", err)
 	}
+
+	t.Log(user)
 }
 
-
-func TestListUsers(t *testing.T) {
+// TestServer_ListUser
+func TestServer_ListUser(t *testing.T) {
 
 	s := Server{}
 
-	_, err := s.ListUsers(ctx, emp)
+	response, err := s.ListUser(ctx, emp)
 	if err != nil {
-		t.Errorf("Failed to test TestListUsers - %v", err)
+		t.Errorf("Failed to test TestListUsers - %v", err.Error())
 	}
+
+	if response.Data[0].Id != user.Id {
+		t.Error("Failed to test TestListUsers")
+	}
+}
+
+// TestServer_DeleteUser
+func TestServer_DeleteUser(t *testing.T) {
+
+	s := Server{}
+
+	_, err := s.DeleteUser(ctx, &goalvaro.UserId{Id: user.Id})
+	if err != nil {
+		t.Errorf("Failed to test TestServer_DeleteUser - %v", err)
+	}
+
 }

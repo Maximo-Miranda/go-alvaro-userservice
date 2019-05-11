@@ -1,12 +1,31 @@
 ## go-alvaro-userservice
 
+Demo service for the implementation of grpc
 
-## Authors
+## Requirements
 
+```
+- Postgres SQL
 
 ```
 
-- El Mistico (Alvaro Vega)
-- El Papa del Mistico (Maximo Miranda)
+## Test
+
+```ssh
+RUN
+
+- source envrc.example
+- cd migrations
+- go run userMigrations.go
+
+NOTE: 
+adjust the environment variables according to your database
+
+```
+
+## Authors
+
+```
+- Maximo Miranda <maximomirandah@gmail.com>
 
 ```

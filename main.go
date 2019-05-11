@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"os"
 
 	"google.golang.org/grpc"
 	goalvaro "github.com/Maximo-Miranda/go-alvaro-userservice/protos/compiled"
@@ -13,7 +14,7 @@ func main(){
 
 
 	// create a listener on TCP port
-	lis, err := net.Listen("tcp", ":8007")
+	lis, err := net.Listen("tcp", ":" + os.Getenv("APP_PORT"))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -24,7 +25,7 @@ func main(){
 	// attach the Process service to the server
 	goalvaro.RegisterUserServiceServer(grpcServer, &user.Server{})
 
-	log.Println("Server running on port: ", "8007")
+	log.Println("Server running on port: ", os.Getenv("APP_PORT"))
 
 	// start the server
 	err = grpcServer.Serve(lis)

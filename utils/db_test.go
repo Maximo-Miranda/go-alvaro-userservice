@@ -6,7 +6,7 @@ import (
 )
 
 
-// TestConnect
+// TestConnect DB
 func TestConnect(t *testing.T) {
 
 	_, err := Connect()

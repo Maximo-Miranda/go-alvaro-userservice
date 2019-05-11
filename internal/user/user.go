@@ -34,8 +34,6 @@ func (s *Server) ListUser(ctx context.Context, in *empty.Empty) (*goalvaro.Users
 		return &gRPCResponse, err
 	}
 
-	fmt.Println("users", users)
-
 	for _, u := range users {
 
 		user := goalvaro.User{}
@@ -51,7 +49,7 @@ func (s *Server) ListUser(ctx context.Context, in *empty.Empty) (*goalvaro.Users
 	}
 
 	gRPCResponse.Meta = &goalvaro.Response{
-		Message: "Get users succesfuly",
+		Message: "Get users OK",
 		Code: http.StatusOK,
 	}
 
@@ -62,6 +60,8 @@ func (s *Server) ListUser(ctx context.Context, in *empty.Empty) (*goalvaro.Users
 func (s *Server) CreateUser(ctx context.Context, in *goalvaro.User) (*goalvaro.UserResponse, error) {
 
 	gRPCResponse := goalvaro.UserResponse{}
+
+	fmt.Println(in)
 
 	m := UserModel{}
 
@@ -101,7 +101,7 @@ func (s *Server) CreateUser(ctx context.Context, in *goalvaro.User) (*goalvaro.U
 
 	gRPCResponse = goalvaro.UserResponse{
 		Meta: &goalvaro.Response{
-			Message: "User created succesfuly",
+			Message: "User created OK",
 			Code: http.StatusOK,
 		},
 		Data: in,
@@ -125,5 +125,32 @@ func (s *Server) UpdateUser(ctx context.Context, in *goalvaro.User) (*goalvaro.U
 // DeleteUser
 func (s *Server) DeleteUser(ctx context.Context, in *goalvaro.UserId) (*goalvaro.UserBoolResponse, error) {
 
-	return nil, nil
+	gRPCResponse := goalvaro.UserBoolResponse{}
+
+	m := UserModel{
+		ID: in.Id,
+	}
+
+	err := m.Delete()
+	if err != nil {
+		gRPCResponse = goalvaro.UserBoolResponse{
+			Meta: &goalvaro.Response{
+				Message: err.Error(),
+				Code: http.StatusInternalServerError,
+			},
+			Data: false,
+		}
+
+		return &gRPCResponse, err
+	}
+
+	gRPCResponse = goalvaro.UserBoolResponse{
+		Meta: &goalvaro.Response{
+			Message: "User deleted OK",
+			Code: http.StatusOK,
+		},
+		Data: true,
+	}
+
+	return &gRPCResponse, nil
 }

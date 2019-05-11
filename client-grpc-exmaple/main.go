@@ -9,6 +9,7 @@ import (
 	goalvaro "github.com/Maximo-Miranda/go-alvaro-userservice/protos/compiled"
 )
 
+// Exmaple client gRPC
 func main(){
 
 	var conn *grpc.ClientConn
@@ -18,15 +19,6 @@ func main(){
 	}
 	defer conn.Close()
 
-/*	str := goalvaro.R
-	str.Name = "Elisa"
-	str.Lastname = "Arrieta"
-	str.Auth_0Id = "dfge5t45t45"
-	str.Email = "valery4@hotmail.com"
-	str.ImageUrl = "http://localhost"
-	str.IsSocial = "Google"
-	str.PhoneNumber = "+573008316105"
-*/
 	c := goalvaro.NewUserServiceClient(conn)
 
 	response, err := c.ListUser(context.Background(), &empty.Empty{})
@@ -36,5 +28,4 @@ func main(){
 	}
 
 	log.Printf("Response from server: %v", response)
-
 }

@@ -56,3 +56,20 @@ func (m *UserModel) All() (Users, error) {
 
 	return users, nil
 }
+
+// Delete
+func (m *UserModel) Delete() error {
+
+	conn, err := utl.Connect()
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	result := conn.Delete(m)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}
